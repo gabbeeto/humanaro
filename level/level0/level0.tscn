@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dbu1qi42hw5tw"]
+
+[ext_resource type="PackedScene" uid="uid://sg2mytpwm3r3" path="res://level/level.tscn" id="1_eopji"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_eopji"]
+
+[node name="level0" instance=ExtResource("1_eopji")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="1"]
+transform = Transform3D(1.82, 0, 0, 0, 1.82, 0, 0, 0, 1.82, 0, -0.920878, 0)
+mesh = SubResource("BoxMesh_eopji")

@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bebuifbrk8ueh"]
+
+[ext_resource type="Script" uid="uid://bgqls8pti0btb" path="res://entities/entity.gd" id="1_jm4vq"]
+
+[node name="character" type="CharacterBody3D"]
+script = ExtResource("1_jm4vq")
+metadata/_custom_type_script = "uid://bgqls8pti0btb"
+
+[node name="colision" type="CollisionShape3D" parent="."]

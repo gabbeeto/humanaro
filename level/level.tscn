@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://sg2mytpwm3r3"]
+
+[ext_resource type="PackedScene" uid="uid://o5qkyg377lpy" path="res://entities/player/player.tscn" id="1_7lnir"]
+
+[node name="level" type="Node3D"]
+
+[node name="player" parent="." instance=ExtResource("1_7lnir")]
+
+[node name="light" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.574347, 0.652941)

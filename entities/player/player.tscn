@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://o5qkyg377lpy"]
+
+[ext_resource type="PackedScene" uid="uid://bebuifbrk8ueh" path="res://entities/entity.tscn" id="1_symyc"]
+[ext_resource type="Script" uid="uid://bgvi5s4d1548u" path="res://entities/player/player.gd" id="2_abrql"]
+[ext_resource type="PackedScene" uid="uid://dp1pgv8fgxsi0" path="res://asset/player.blend" id="3_sglur"]
+
+[node name="player" instance=ExtResource("1_symyc")]
+script = ExtResource("2_abrql")
+
+[node name="playerAsset" parent="." index="0" instance=ExtResource("3_sglur")]
+
+[node name="camera" type="Camera3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 0.95656, 0.291537, 0, -0.291537, 0.95656, 0, 1.34497, 1.89089)
