@@ -1,11 +1,26 @@
-[gd_scene load_steps=3 format=3 uid="uid://dbu1qi42hw5tw"]
+[gd_scene load_steps=4 format=3 uid="uid://dbu1qi42hw5tw"]
 
 [ext_resource type="PackedScene" uid="uid://sg2mytpwm3r3" path="res://level/level.tscn" id="1_eopji"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_eopji"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_eopji"]
+size = Vector3(4.92828, 1, 4.84949)
+
 [node name="level0" instance=ExtResource("1_eopji")]
+
+[node name="player" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.614753, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." index="1"]
 transform = Transform3D(1.82, 0, 0, 0, 1.82, 0, 0, 0, 1.82, 0, -0.920878, 0)
 mesh = SubResource("BoxMesh_eopji")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.728668, 0, 0.762788)
+collision_layer = 4
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("BoxShape3D_eopji")

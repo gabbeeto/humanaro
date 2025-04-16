@@ -1,4 +1,4 @@
-extends Entity
+extends GameEntity
 
 class_name Enemy
 

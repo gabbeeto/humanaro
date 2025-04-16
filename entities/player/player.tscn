@@ -1,8 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://o5qkyg377lpy"]
+[gd_scene load_steps=5 format=3 uid="uid://o5qkyg377lpy"]
 
 [ext_resource type="PackedScene" uid="uid://bebuifbrk8ueh" path="res://entities/entity.tscn" id="1_symyc"]
 [ext_resource type="Script" uid="uid://bgvi5s4d1548u" path="res://entities/player/player.gd" id="2_abrql"]
 [ext_resource type="PackedScene" uid="uid://dp1pgv8fgxsi0" path="res://asset/player.blend" id="3_sglur"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sglur"]
+radius = 0.436207
+height = 1.0762
 
 [node name="player" instance=ExtResource("1_symyc")]
 script = ExtResource("2_abrql")
@@ -11,6 +15,10 @@ script = ExtResource("2_abrql")
 
 [node name="camera" type="Camera3D" parent="." index="1"]
 transform = Transform3D(1, 0, 0, 0, 0.95656, 0.291537, 0, -0.291537, 0.95656, 0, 1.34497, 1.89089)
+
+[node name="colision" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.500748, 0.028717)
+shape = SubResource("CapsuleShape3D_sglur")
 
 [node name="light" type="SpotLight3D" parent="." index="3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.518128, 0.831556)
