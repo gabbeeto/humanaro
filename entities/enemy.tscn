@@ -1,8 +1,32 @@
-[gd_scene load_steps=3 format=3 uid="uid://dte1l4rrwbubj"]
+[gd_scene load_steps=6 format=3 uid="uid://dte1l4rrwbubj"]
 
 [ext_resource type="PackedScene" uid="uid://bebuifbrk8ueh" path="res://entities/entity.tscn" id="1_p7g5j"]
 [ext_resource type="Script" uid="uid://c2i6f2n42k8tr" path="res://entities/enemy.gd" id="2_pqhw6"]
+[ext_resource type="PackedScene" uid="uid://co6nfs41f8u6n" path="res://asset/baseEnemy.blend" id="3_b4nis"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_b4nis"]
+radius = 0.372636
+height = 1.45229
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_b4nis"]
+size = Vector3(10, 1.53662, 7)
 
 [node name="enemy" instance=ExtResource("1_p7g5j")]
 collision_layer = 2
 script = ExtResource("2_pqhw6")
+
+[node name="baseEnemy" parent="." index="0" instance=ExtResource("3_b4nis")]
+
+[node name="colision" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.150391, 0.625929, 0.100719)
+shape = SubResource("CapsuleShape3D_b4nis")
+
+[node name="followPlayerArea" type="Area3D" parent="." index="2"]
+collision_layer = 8
+
+[node name="colisionForFinder" type="CollisionShape3D" parent="followPlayerArea" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.731689, 0)
+shape = SubResource("BoxShape3D_b4nis")
+
+[connection signal="body_entered" from="followPlayerArea" to="." method="playerEntersArea"]
+[connection signal="body_exited" from="followPlayerArea" to="." method="playerExitsArea"]

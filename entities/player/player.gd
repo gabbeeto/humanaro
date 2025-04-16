@@ -1,5 +1,6 @@
 extends GameEntity
 
+class_name APlayer
 
 func entityProcess(delta: float) -> void:
 	var playerIsJumping: bool = is_on_floor() and Input.is_action_pressed("jump")

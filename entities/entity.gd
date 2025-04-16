@@ -17,9 +17,12 @@ func _ready() -> void:
 	jumpVelocity = ((2.0 * JumpHeight) / JumpTimeToPeak)
 	jumpGravity = ((-2.0 * JumpHeight) / (JumpTimeToPeak * JumpTimeToPeak))
 	fallGravity = ((-2.0 * JumpHeight) / (JumpTimeToDescent * JumpTimeToDescent))
+	entityStarts()
 
 
 
+func entityStarts() -> void:
+	pass
 
 func entityProcess(_delta: float) -> void:
 	pass
