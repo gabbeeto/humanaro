@@ -31,9 +31,10 @@ func entityStarts() -> void:
 var EnemyDoneAllPath: bool = false
 
 func entityProcess(delta: float) -> void:
-	var currentPath: Dictionary = enemyPath[currentMovementIndex]
 
+	var currentPath: Dictionary = enemyPath[currentMovementIndex]
 	print(currentPath)
+
 	var directionIsPositive: bool = currentPath.isPositive
 	var isXAxis: bool = currentPath['type'] == Direction.X
 
@@ -54,7 +55,6 @@ func entityProcess(delta: float) -> void:
 			addCurrentMovement()
 		else:
 			velocity.x -= moveSpeed * delta
-	#TODO: fix out of bound problem
 	elif not isXAxis and directionIsPositive:
 		enemyReachedGoal =  global_position.z > (firstGlobalPosition.z + currentPath['amount'])
 		if enemyReachedGoal:
@@ -72,19 +72,27 @@ func entityProcess(delta: float) -> void:
 
 
 
+
+
+var opositeDirectionAligntment: int = 1
 func addCurrentMovement()	-> void:
-	var alignment: int = 1
-	var nextPathIsLastPath: bool =  currentMovementIndex + 1 == len(enemyPath) 
-	var opositeDirectionAligntment: int = 1
-	if EnemyDoneAllPath:
-		alignment = -1
-		nextPathIsLastPath = currentMovementIndex - 1 > 0
 
-	if nextPathIsLastPath:
+	var nextPathIsLastPath: bool 
+
+	if EnemyDoneAllPath == false:
+		nextPathIsLastPath = currentMovementIndex + opositeDirectionAligntment >= len(enemyPath)
+	else:
+
+		nextPathIsLastPath = currentMovementIndex + opositeDirectionAligntment < 0 
+
+	if nextPathIsLastPath  :
 		EnemyDoneAllPath = not EnemyDoneAllPath
-		opositeDirectionAligntment = -1
+		opositeDirectionAligntment *= -1
+	
 
-	currentMovementIndex += alignment * opositeDirectionAligntment
+
+	currentMovementIndex +=  opositeDirectionAligntment
+
 
 
 
@@ -96,4 +104,3 @@ func playerExitsArea(_body:APlayer) -> void:
 
 func playerEntersArea(_body:APlayer) -> void:
 	playerInArea = true
-
