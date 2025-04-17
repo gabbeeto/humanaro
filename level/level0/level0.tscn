@@ -6,7 +6,7 @@
 [sub_resource type="BoxMesh" id="BoxMesh_eopji"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_eopji"]
-size = Vector3(20.1675, 1, 20.5459)
+size = Vector3(430.943, 1, 212.614)
 
 [node name="level0" instance=ExtResource("1_eopji")]
 
@@ -23,8 +23,9 @@ collision_layer = 4
 collision_mask = 3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.995047, 0, -2.56042)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60.906, 0, 24.4645)
 shape = SubResource("BoxShape3D_eopji")
 
 [node name="enemy" parent="." index="2" instance=ExtResource("2_1krvd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.658727, -5.32952)
+pathToTravel = []

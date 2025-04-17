@@ -14,6 +14,7 @@ size = Vector3(10, 1.53662, 7)
 [node name="enemy" instance=ExtResource("1_p7g5j")]
 collision_layer = 2
 script = ExtResource("2_pqhw6")
+pathToTravel = []
 
 [node name="baseEnemy" parent="." index="0" instance=ExtResource("3_b4nis")]
 
