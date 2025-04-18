@@ -13,13 +13,15 @@ var playerInArea: bool = false
 
 var enemyPath: Array[Dictionary]= [
 mkDirection(Direction.X, 2 ),
+mkDirection(Direction.Z, 5,  ),
+mkDirection(Direction.Z, 5, false ),
 ]
 
 
 var currentMovementIndex: int = 0 
 
 var firstGlobalPosition: Vector3
-@export var pathToTravel: Array
+var pathToTravel: Array
 func entityStarts() -> void:
 	# because position changes
 	firstGlobalPosition = global_position
@@ -97,26 +99,39 @@ func entityStarts() -> void:
 
 
 
-
+@export var enemyAsset: Node3D 
 var EnemyDoneAllPath: bool = false
 
 func entityProcess(delta: float) -> void:
+	var animationPlayer: AnimationPlayer = enemyAsset.get_node("AnimationPlayer")
+	animationPlayer.play("move")
+	animationPlayer.speed_scale = 4
+
 	var currentMovementContainer: Array = pathToTravel[currentMovementIndex]
 	var pathToGo: Vector3 = currentMovementContainer[0]
 	var direction: Vector2 = currentMovementContainer[1]
 
+	var rotationDuration: float = .8
+
 	var enemyReachedPath: bool
 	var newVelocity: Vector3
+	var rotationDirection: int = 0
+
+
 	if direction.x == 1:
+		rotationDirection= -90
 		enemyReachedPath = global_position.x > pathToGo.x
 		newVelocity.x += moveSpeed * delta
 	elif direction.x == -1:
+		rotationDirection= 90
 		enemyReachedPath = global_position.x < pathToGo.x
 		newVelocity.x -= moveSpeed * delta
 	elif direction.y == -1:
+		rotationDirection= 0
 		enemyReachedPath = global_position.z < pathToGo.z
 		newVelocity.z -= moveSpeed * delta
 	elif direction.y == 1:
+		rotationDirection= -180
 		enemyReachedPath = global_position.z > pathToGo.z
 		newVelocity.z += moveSpeed * delta
 
@@ -125,6 +140,9 @@ func entityProcess(delta: float) -> void:
 		velocity.z = 0
 		addCurrentMovement()
 	else:
+		var rotationTween :Tween  = create_tween()
+		rotationTween.tween_property(enemyAsset,"rotation_degrees:y",rotationDirection, rotationDuration)
+		rotationTween.play()
 		velocity = Vector3(newVelocity.x, velocity.y, newVelocity.z)
 
 	

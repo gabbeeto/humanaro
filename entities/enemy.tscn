@@ -11,12 +11,25 @@ height = 1.45229
 [sub_resource type="BoxShape3D" id="BoxShape3D_b4nis"]
 size = Vector3(10, 1.53662, 7)
 
-[node name="enemy" instance=ExtResource("1_p7g5j")]
+[node name="enemy" node_paths=PackedStringArray("enemyAsset") instance=ExtResource("1_p7g5j")]
 collision_layer = 2
 script = ExtResource("2_pqhw6")
-pathToTravel = []
+enemyAsset = NodePath("asseto")
 
-[node name="baseEnemy" parent="." index="0" instance=ExtResource("3_b4nis")]
+[node name="asseto" parent="." index="0" instance=ExtResource("3_b4nis")]
+
+[node name="Skeleton3D" parent="asseto/enemyBones" index="0"]
+bones/3/rotation = Quaternion(0, 3.55271e-15, 0, 1)
+bones/4/rotation = Quaternion(-0.5, 0.5, 0.5, 0.5)
+bones/5/rotation = Quaternion(-2.39557e-22, -0.707107, -7.98525e-23, 0.707107)
+bones/7/rotation = Quaternion(-0.5, -0.5, -0.5, 0.5)
+bones/8/rotation = Quaternion(1.88665e-21, 0.707107, 3.69355e-22, 0.707107)
+bones/10/rotation = Quaternion(0.939693, -1.49502e-08, -4.10753e-08, -0.34202)
+bones/11/rotation = Quaternion(-2.8626e-08, 4.37114e-08, 4.60365e-15, 1)
+bones/13/rotation = Quaternion(0.336861, 0.608181, -0.266994, 0.667349)
+bones/14/rotation = Quaternion(0.939693, 1.49502e-08, -4.10753e-08, 0.34202)
+bones/15/rotation = Quaternion(-0.34202, 4.10753e-08, 1.49502e-08, 0.939693)
+bones/17/rotation = Quaternion(0.270598, -0.653281, 0.270598, 0.653282)
 
 [node name="colision" parent="." index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.150391, 0.625929, 0.100719)
@@ -31,3 +44,5 @@ shape = SubResource("BoxShape3D_b4nis")
 
 [connection signal="body_entered" from="followPlayerArea" to="." method="playerEntersArea"]
 [connection signal="body_exited" from="followPlayerArea" to="." method="playerExitsArea"]
+
+[editable path="asseto"]

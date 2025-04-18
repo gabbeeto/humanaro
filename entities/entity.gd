@@ -2,6 +2,14 @@ class_name GameEntity
 extends CharacterBody3D
 
 
+@export var health : int : set = setHealth, get = getHealth
+
+func setHealth(newHealth: int) -> void:
+	health = newHealth
+
+
+func getHealth() -> int:
+	return health
 
 @export var moveSpeed: float = 200
 
@@ -13,6 +21,8 @@ extends CharacterBody3D
 var jumpVelocity : float
 var jumpGravity : float 
 var fallGravity : float 
+
+
 func _ready() -> void:
 	jumpVelocity = ((2.0 * JumpHeight) / JumpTimeToPeak)
 	jumpGravity = ((-2.0 * JumpHeight) / (JumpTimeToPeak * JumpTimeToPeak))
