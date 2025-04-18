@@ -28,4 +28,3 @@ shape = SubResource("BoxShape3D_eopji")
 
 [node name="enemy" parent="." index="2" instance=ExtResource("2_1krvd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.658727, -5.32952)
-pathToTravel = []

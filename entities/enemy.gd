@@ -13,9 +13,6 @@ var playerInArea: bool = false
 
 var enemyPath: Array[Dictionary]= [
 mkDirection(Direction.X, 2 ),
-mkDirection(Direction.Z, 4 , false),
-mkDirection(Direction.X, 3 ),
-mkDirection(Direction.Z, 5 ),
 ]
 
 
@@ -49,29 +46,54 @@ func entityStarts() -> void:
 			currentGlobal.x +=  (currentPath['amount'] * positiveSign)
 			vectorSign.x = positiveSign
 			vectorSign.y = 0
-			print("isXAxis")
 		elif isZAxis:
 			currentGlobal.z +=  (currentPath['amount'] * positiveSign)
 			vectorSign.x = 0
 			vectorSign.y = positiveSign
-			print("isZAxis")
 		var pathArray: Array = [currentGlobal,vectorSign]
-		print(vectorSign)
-		print(pathArray)
 		pathToTravel.append(pathArray)
 
 	var index: int= pathLength -2
 	var copyOfPathToTravel: Array = pathToTravel.duplicate(true)
+	var secondCopyOfPathToTravel: Array = pathToTravel.duplicate(true)
 	while index > -1:
+
 		var newPathToTravel: Array = copyOfPathToTravel[index]
-		newPathToTravel[1].x = -1 * copyOfPathToTravel[index + 1][1].x 
-		newPathToTravel[1].y = -1 * copyOfPathToTravel[index + 1][1].y 
+
+		var currentPath: Vector3 = newPathToTravel[0]
+		var nextPath: Vector3 = secondCopyOfPathToTravel[index +1][0]
+
+		var newDirectionVector: Vector2
+		if currentPath.x == nextPath.x:
+			newDirectionVector.x = 0
+		elif currentPath.x > nextPath.x:
+			newDirectionVector.x = 1
+		else:
+			newDirectionVector.x = -1
+
+		if currentPath.z == nextPath.z:
+			newDirectionVector.y = 0
+		elif currentPath.z > nextPath.z:
+			newDirectionVector.y = 1
+		else:
+			newDirectionVector.y = -1
+
+		newPathToTravel[1] = newDirectionVector
+
 		pathToTravel.append(newPathToTravel)
 		index -= 1
 
-	print( pathToTravel )
+	var firstDirection: Vector2 = pathToTravel[0][1]
+	var lastDirection: Vector2
+	# multiply by -1 because it goes to the other side when enemy is coming back
+	lastDirection.x = 0.0 if firstDirection.x == 0 else -1 * firstDirection.x
+	lastDirection.y = 0.0 if firstDirection.x == 0 else -1 * firstDirection.y
 
-		# pathToTravel.append(currentPath)
+	pathToTravel.append([firstGlobalPosition, lastDirection ])
+	print(pathToTravel)
+
+
+
 
 
 
@@ -79,6 +101,34 @@ func entityStarts() -> void:
 var EnemyDoneAllPath: bool = false
 
 func entityProcess(delta: float) -> void:
+	var currentMovementContainer: Array = pathToTravel[currentMovementIndex]
+	var pathToGo: Vector3 = currentMovementContainer[0]
+	var direction: Vector2 = currentMovementContainer[1]
+
+	var enemyReachedPath: bool
+	var newVelocity: Vector3
+	if direction.x == 1:
+		enemyReachedPath = global_position.x > pathToGo.x
+		newVelocity.x += moveSpeed * delta
+	elif direction.x == -1:
+		enemyReachedPath = global_position.x < pathToGo.x
+		newVelocity.x -= moveSpeed * delta
+	elif direction.y == -1:
+		enemyReachedPath = global_position.z < pathToGo.z
+		newVelocity.z -= moveSpeed * delta
+	elif direction.y == 1:
+		enemyReachedPath = global_position.z > pathToGo.z
+		newVelocity.z += moveSpeed * delta
+
+	if enemyReachedPath:
+		velocity.x = 0
+		velocity.z = 0
+		addCurrentMovement()
+	else:
+		velocity = Vector3(newVelocity.x, velocity.y, newVelocity.z)
+
+	
+
 	pass
 	# make it so enemy traverse thought the pathToTravel and use the addCurrentMovement function to add movement
 
