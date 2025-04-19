@@ -2,14 +2,25 @@ class_name GameEntity
 extends CharacterBody3D
 
 
-@export var health : int : set = setHealth, get = getHealth
+@export var maximumHealth : int = 5
+@export var health : int = 5:
+	set(newHealth):
+		if newHealth > maximumHealth:
+			health = maximumHealth
+		elif newHealth <= 0:
+			die()
+		else:
+			health = newHealth
+			notifyHealth(health)
 
-func setHealth(newHealth: int) -> void:
-	health = newHealth
 
 
-func getHealth() -> int:
-	return health
+
+func notifyHealth(_health: int) -> void:
+	pass
+
+func die() -> void:
+	self.queue_free()
 
 @export var moveSpeed: float = 200
 
