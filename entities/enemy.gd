@@ -10,11 +10,11 @@ func mkDirection(type: Direction = Direction.X , amount: int = 1, isPositive: bo
 
 
 var playerInArea: bool = false
+const enemyMovement := preload("uid://cm2vrnbugmqws")
 
-var enemyPath: Array[Dictionary]= [
-mkDirection(Direction.X, 2 ),
-mkDirection(Direction.Z, 5,  ),
-mkDirection(Direction.Z, 5, false ),
+var enemyPath: Array[EnemyMovement]= [
+EnemyMovement.new(GlobalEnum.EnemyDirection.X,2),
+EnemyMovement.new(GlobalEnum.EnemyDirection.Z,5),
 ]
 
 
@@ -23,22 +23,25 @@ var currentMovementIndex: int = 0
 var firstGlobalPosition: Vector3
 var pathToTravel: Array
 func entityStarts() -> void:
+	currentMovementIndex = 0
+
+
 	# because position changes
 	firstGlobalPosition = global_position
-	currentMovementIndex = 0
 
 	var currentGlobal :Vector3 = firstGlobalPosition
 	var pathLength: int = len(enemyPath)
+	# makes the path that the enemy needs to traverse
 	for index in pathLength:
-		var currentPath: Dictionary = enemyPath[index]
+		var currentPath: EnemyMovement = enemyPath[index]
 
 		var isXAxis: bool = currentPath['type'] == Direction.X
 		var isZAxis: bool = currentPath['type'] == Direction.Z
 
 
 		var isPositive: bool = currentPath['isPositive'] == true
-		var positiveSign: int = -1
 
+		var positiveSign: int = -1
 		if isPositive:
 			positiveSign = 1
 
@@ -55,9 +58,14 @@ func entityStarts() -> void:
 		var pathArray: Array = [currentGlobal,vectorSign]
 		pathToTravel.append(pathArray)
 
-	var index: int= pathLength -2
+
+	# make copys so you  do not affect the original array
 	var copyOfPathToTravel: Array = pathToTravel.duplicate(true)
 	var secondCopyOfPathToTravel: Array = pathToTravel.duplicate(true)
+
+	# we start the index at the element before the last one so we can decrease it later
+	var index: int= pathLength -2
+	# use the index to make the path in reverse so it's easier to make a movement loop
 	while index > -1:
 
 		var newPathToTravel: Array = copyOfPathToTravel[index]
@@ -85,14 +93,18 @@ func entityStarts() -> void:
 		pathToTravel.append(newPathToTravel)
 		index -= 1
 
+
+
+	
+	# this direction is for the movement that goes to the origin/firstGlobalPosition at the end
 	var firstDirection: Vector2 = pathToTravel[0][1]
 	var lastDirection: Vector2
-	# multiply by -1 because it goes to the other side when enemy is coming back
+	# multiply by -1 because it goes to the other side when enemy is coming back 
 	lastDirection.x = 0.0 if firstDirection.x == 0 else -1 * firstDirection.x
 	lastDirection.y = 0.0 if firstDirection.x == 0 else -1 * firstDirection.y
 
+	# add the enemy's origin as final path/destination so we can start from scratch in the next iteration
 	pathToTravel.append([firstGlobalPosition, lastDirection ])
-	print(pathToTravel)
 
 
 
@@ -112,33 +124,34 @@ func entityProcess(delta: float) -> void:
 	var direction: Vector2 = currentMovementContainer[1]
 
 	var rotationDuration: float = .8
-
-	var enemyReachedPath: bool
-	var newVelocity: Vector3
+	# mean to change when the direction changes
 	var rotationDirection: int = 0
 
+	var enemyReachedDestination: bool
+	var newVelocity: Vector3
 
 	if direction.x == 1:
 		rotationDirection= -90
-		enemyReachedPath = global_position.x > pathToGo.x
-		newVelocity.x += moveSpeed * delta
+		enemyReachedDestination = global_position.x > pathToGo.x
+		newVelocity.x += sideMovementSpeed * delta
 	elif direction.x == -1:
 		rotationDirection= 90
-		enemyReachedPath = global_position.x < pathToGo.x
-		newVelocity.x -= moveSpeed * delta
+		enemyReachedDestination = global_position.x < pathToGo.x
+		newVelocity.x -= sideMovementSpeed * delta
 	elif direction.y == -1:
 		rotationDirection= 0
-		enemyReachedPath = global_position.z < pathToGo.z
-		newVelocity.z -= moveSpeed * delta
+		enemyReachedDestination = global_position.z < pathToGo.z
+		newVelocity.z -= sideMovementSpeed * delta
 	elif direction.y == 1:
 		rotationDirection= -180
-		enemyReachedPath = global_position.z > pathToGo.z
-		newVelocity.z += moveSpeed * delta
+		enemyReachedDestination = global_position.z > pathToGo.z
+		newVelocity.z += sideMovementSpeed * delta
 
-	if enemyReachedPath:
+	if enemyReachedDestination:
 		velocity.x = 0
 		velocity.z = 0
-		addCurrentMovement()
+		# this makes so it changes the destination/path
+		increaseMovementIndex()
 	else:
 		var rotationTween :Tween  = create_tween()
 		rotationTween.tween_property(enemyAsset,"rotation_degrees:y",rotationDirection, rotationDuration)
@@ -147,15 +160,13 @@ func entityProcess(delta: float) -> void:
 
 	
 
-	pass
-	# make it so enemy traverse thought the pathToTravel and use the addCurrentMovement function to add movement
 
 
 
 
 
 
-func addCurrentMovement()	-> void:
+func increaseMovementIndex()	-> void:
 	if currentMovementIndex + 1 >= len(pathToTravel):
 		currentMovementIndex = 0
 	else:

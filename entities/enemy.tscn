@@ -15,6 +15,8 @@ size = Vector3(10, 1.53662, 7)
 collision_layer = 2
 script = ExtResource("2_pqhw6")
 enemyAsset = NodePath("asseto")
+maximumHealth = 2
+health = 2
 
 [node name="asseto" parent="." index="0" instance=ExtResource("3_b4nis")]
 
@@ -24,12 +26,12 @@ bones/4/rotation = Quaternion(-0.5, 0.5, 0.5, 0.5)
 bones/5/rotation = Quaternion(-2.39557e-22, -0.707107, -7.98525e-23, 0.707107)
 bones/7/rotation = Quaternion(-0.5, -0.5, -0.5, 0.5)
 bones/8/rotation = Quaternion(1.88665e-21, 0.707107, 3.69355e-22, 0.707107)
-bones/10/rotation = Quaternion(0.939693, -1.49502e-08, -4.10753e-08, -0.34202)
-bones/11/rotation = Quaternion(-2.8626e-08, 4.37114e-08, 4.60365e-15, 1)
-bones/13/rotation = Quaternion(0.336861, 0.608181, -0.266994, 0.667349)
-bones/14/rotation = Quaternion(0.939693, 1.49502e-08, -4.10753e-08, 0.34202)
-bones/15/rotation = Quaternion(-0.34202, 4.10753e-08, 1.49502e-08, 0.939693)
-bones/17/rotation = Quaternion(0.270598, -0.653281, 0.270598, 0.653282)
+bones/10/rotation = Quaternion(1, -6.35275e-22, -4.37114e-08, -8.07801e-08)
+bones/11/rotation = Quaternion(-8.07801e-08, 4.37114e-08, -1.08239e-21, 1)
+bones/13/rotation = Quaternion(0.5, 0.5, -0.5, 0.5)
+bones/14/rotation = Quaternion(1, -6.35275e-22, -4.37114e-08, -8.07801e-08)
+bones/15/rotation = Quaternion(-8.07801e-08, 4.37114e-08, -1.08239e-21, 1)
+bones/17/rotation = Quaternion(0.5, -0.5, 0.5, 0.5)
 
 [node name="colision" parent="." index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.150391, 0.625929, 0.100719)

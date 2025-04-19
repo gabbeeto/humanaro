@@ -1,7 +1,7 @@
 class_name GameEntity
 extends CharacterBody3D
 
-
+@export_category("life")
 @export var maximumHealth : int = 5
 @export var health : int = 5:
 	set(newHealth):
@@ -22,8 +22,8 @@ func notifyHealth(_health: int) -> void:
 func die() -> void:
 	self.queue_free()
 
-@export var moveSpeed: float = 200
-
+@export_category("movement")
+@export var sideMovementSpeed: float = 200
 @export var JumpHeight : float = 1
 @export var JumpTimeToPeak : float = 1
 @export var JumpTimeToDescent : float = 1
