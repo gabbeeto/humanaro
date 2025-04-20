@@ -11,9 +11,10 @@ height = 1.45229
 [sub_resource type="BoxShape3D" id="BoxShape3D_b4nis"]
 size = Vector3(10, 1.53662, 7)
 
-[node name="enemy" node_paths=PackedStringArray("enemyAsset") instance=ExtResource("1_p7g5j")]
+[node name="enemy" node_paths=PackedStringArray("gunContainer", "enemyAsset") instance=ExtResource("1_p7g5j")]
 collision_layer = 2
 script = ExtResource("2_pqhw6")
+gunContainer = NodePath("gunContainer")
 enemyAsset = NodePath("asseto")
 maximumHealth = 2
 health = 2
@@ -43,6 +44,15 @@ collision_layer = 8
 [node name="colisionForFinder" type="CollisionShape3D" parent="followPlayerArea" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.731689, 0)
 shape = SubResource("BoxShape3D_b4nis")
+
+[node name="gunContainer" type="Node3D" parent="." index="3"]
+
+[node name="gunPos" type="Marker3D" parent="gunContainer" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.660142, 0.525339, 0)
+gizmo_extents = 0.38
+
+[node name="gunPos2" type="Marker3D" parent="gunContainer" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.655511, 0.564729, 0)
 
 [connection signal="body_entered" from="followPlayerArea" to="." method="playerEntersArea"]
 [connection signal="body_exited" from="followPlayerArea" to="." method="playerExitsArea"]

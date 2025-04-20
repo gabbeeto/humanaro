@@ -2,11 +2,9 @@ extends GameEntity
 
 class_name Enemy
 
-enum Direction {X,Z}
+@export var gunContainer: Node3D
 
 
-func mkDirection(type: Direction = Direction.X , amount: int = 1, isPositive: bool = true) -> Dictionary:
-	return {"type": type , "amount": amount , "isPositive": isPositive}
 
 
 var playerInArea: bool = false
@@ -24,8 +22,12 @@ var firstGlobalPosition: Vector3
 var pathToTravel: Array
 func entityStarts() -> void:
 	currentMovementIndex = 0
+	generatePath()
+	generateShootPositions()
 
 
+
+func generatePath() -> void:
 	# because position changes
 	firstGlobalPosition = global_position
 
@@ -35,16 +37,14 @@ func entityStarts() -> void:
 	for index in pathLength:
 		var currentPath: EnemyMovement = enemyPath[index]
 
-		var isXAxis: bool = currentPath['type'] == Direction.X
-		var isZAxis: bool = currentPath['type'] == Direction.Z
-
+		var isXAxis: bool = currentPath['type'] == GlobalEnum.EnemyDirection.X
+		var isZAxis: bool = currentPath['type'] == GlobalEnum.EnemyDirection.Z
 
 		var isPositive: bool = currentPath['isPositive'] == true
 
 		var positiveSign: int = -1
 		if isPositive:
 			positiveSign = 1
-
 
 		var vectorSign: Vector2
 		if isXAxis:
@@ -57,7 +57,6 @@ func entityStarts() -> void:
 			vectorSign.y = positiveSign
 		var pathArray: Array = [currentGlobal,vectorSign]
 		pathToTravel.append(pathArray)
-
 
 	# make copys so you  do not affect the original array
 	var copyOfPathToTravel: Array = pathToTravel.duplicate(true)
@@ -93,9 +92,6 @@ func entityStarts() -> void:
 		pathToTravel.append(newPathToTravel)
 		index -= 1
 
-
-
-	
 	# this direction is for the movement that goes to the origin/firstGlobalPosition at the end
 	var firstDirection: Vector2 = pathToTravel[0][1]
 	var lastDirection: Vector2
@@ -105,6 +101,21 @@ func entityStarts() -> void:
 
 	# add the enemy's origin as final path/destination so we can start from scratch in the next iteration
 	pathToTravel.append([firstGlobalPosition, lastDirection ])
+
+var gunPositions: Array[Vector3]
+func generateShootPositions() -> void:
+	var containerOfMarkers: Array  = gunContainer.get_children()
+	for value: Marker3D in containerOfMarkers:
+		gunPositions.append(value.global_position)
+	pass
+
+
+
+
+
+
+
+
 
 
 
